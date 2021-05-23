@@ -284,7 +284,7 @@ select.material-control-login:hover{
     position: relative;
     z-index: 1;
     width: 100%;
-    background-color: #fff;
+    background-color: #999;
     padding-left: 300px;
     box-sizing: border-box;
 }

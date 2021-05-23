@@ -1,13 +1,16 @@
 /*
-    // These commands update the app.js after every modify:
-    npm install -g nodemon
-    nodemon app.js
-
     // This is for Oracle data base
     npm install oracledb
 
     // This commands allow us make a http very easy
     npm i express
+
+    // This is for templates
+    npm i ejs
+
+    // These commands update the app.js after every modify:
+    npm install -g nodemon
+    nodemon app.js
 */
 
 const express = require('express'); // import module
@@ -15,6 +18,10 @@ const app = express();
 app.use(express.static(__dirname + "/public")); // path
 
 const port = 3000;
+
+// templates engine
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
 
 app.get('/', (req, res) => {
     res.send('Mi respuesta');
@@ -113,7 +120,142 @@ app.get('/query', function (req, res) {
     query(req, res);
 });
 
+// Page advancesettings
+app.use('/admin', (req, res) => {
+    res.render("admin",{title: "Administradores"});
+});
+
+// Page advancesettings
+app.use('/advancesettings', (req, res) => {
+    res.render("advancesettings",{title: "Configuraciones avanzadas"});
+});
+
+// Page book
+app.use('/book', (req, res) => {
+    res.render("book",{title: "Registrar Libro"});
+});
+
+// Page book
+app.use('/book', (req, res) => {
+    res.render("book",{title: "Registrar Libro"});
+});
+
+// Page catalog
+app.use('/catalog', (req, res) => {
+    res.render("catalog",{title: "Catálogo"});
+});
+
+// Page catalog
+app.use('/catalog', (req, res) => {
+    res.render("catalog",{title: "Catálogo"});
+});
+
+// Page category
+app.use('/category', (req, res) => {
+    res.render("category",{title: "Categorías"});
+});
+
+// Page home
+app.use('/home', (req, res) => {
+    res.render("home",{title: "Inicio"});
+});
+
+// Page index
+app.use('/index', (req, res) => {
+    res.render("index",{title: "Inicio de sesión"});
+});
+
+// Page listpersonal
+app.use('/institution', (req, res) => {
+    res.render("institution",{title: "Institución"});
+});
+
+// Page listpersonal
+app.use('/listadmin', (req, res) => {
+    res.render("listadmin",{title: "Administradores"});
+});
+
+// Page listpersonal
+app.use('/listcategory', (req, res) => {
+    res.render("listcategory",{title: "Categorías"});
+});
+
+// Page listpersonal
+app.use('/listpersonal', (req, res) => {
+    res.render("listpersonal",{title: "Personal administrativo"});
+});
+
+// Page listprovider
+app.use('/listprovider', (req, res) => {
+    res.render("listprovider",{title: "Proveedores"});
+});
+
+// Page listsection
+app.use('/listsection', (req, res) => {
+    res.render("listsection",{title: "Secciones"});
+});
+
+// Page liststudent
+app.use('/liststudent', (req, res) => {
+    res.render("liststudent",{title: "Estudiantes"});
+});
+
+// Page listteacher
+app.use('/listteacher', (req, res) => {
+    res.render("listteacher",{title: "Docentes"});
+});
+
+// Page loan
+app.use('/loan', (req, res) => {
+    res.render("loan",{title: "Prestamos"});
+});
+
+// Page loanpending
+app.use('/loanpending', (req, res) => {
+    res.render("loanpending",{title: "Prestamos"});
+});
+
+// Page loanreservation
+app.use('/loanreservation', (req, res) => {
+    res.render("loanreservation",{title: "Reservaciones"});
+});
+
+// Page personal
+app.use('/personal', (req, res) => {
+    res.render("personal",{title: "Personal administrativo"});
+});
+
+// Page provider
+app.use('/provider', (req, res) => {
+    res.render("provider",{title: "Provedorees"});
+});
+
+// Page report
+app.use('/report', (req, res) => {
+    res.render("report",{title: "Reportes"});
+});
+
+// Page searchBook
+app.use('/searchBook', (req, res) => {
+    res.render("searchBook",{title: "Buscar libro"});
+});
+
+// Page teachers
+app.use('/section', (req, res) => {
+    res.render("section",{title: "Secciones"});
+});
+
+// Page teachers
+app.use('/student', (req, res) => {
+    res.render("student",{title: "Estudiantes"});
+});
+
+// Page teachers
+app.use('/teacher', (req, res) => {
+    res.render("teacher",{title: "Profesores"});
+});
+
 // Page 404 (Error: page not found)
 app.use((req, res, next) => {
-    res.status(404).sendFile(__dirname + "/public/404.html");
+    res.status(404).render("404",{title: "Error"});
 });
