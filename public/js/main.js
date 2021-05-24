@@ -63,7 +63,7 @@ $(document).ready(function(){
            animation: "slide-from-top",
            cancelButtonText: "Cancelar",
            confirmButtonText: "Buscar",
-           confirmButtonColor: "#3598D9",
+           confirmButtonColor: "#D9BB35",
            inputPlaceholder: "Escribe aquí el nombre de libro" }, 
       function(inputValue){
            if (inputValue === false) return false;  

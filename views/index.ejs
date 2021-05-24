@@ -26,19 +26,20 @@
            <i class="zmdi zmdi-account-circle zmdi-hc-5x"></i>
        </p>
        <h4 class="text-center all-tittles" style="margin-bottom: 30px;">inicia sesión con tu cuenta</h4>
-       <form action="home">
+       <form action="index" method="POST" id="myForm" name="myForm">  <!-- Verify login -->
             <div class="group-material-login">
-              <input type="text" class="material-login-control" required="" maxlength="70">
+              <input type="text" class="material-login-control" required="" maxlength="70" id="user" name="user"> <!-- User ID -->
               <span class="highlight-login"></span>
               <span class="bar-login"></span>
-              <label><i class="zmdi zmdi-account"></i> &nbsp; Nombres</label>
+              <label><i class="zmdi zmdi-account"></i> &nbsp; Matricula</label>
             </div><br>
             <div class="group-material-login">
-              <input type="password" class="material-login-control" required="" maxlength="70">
+              <input type="password" class="material-login-control" required="" maxlength="70" id="password" name="password"> <!-- User password -->
               <span class="highlight-login"></span>
               <span class="bar-login"></span>
               <label><i class="zmdi zmdi-lock"></i> &nbsp; Contraseña</label>
             </div>
+            <!--
             <div class="group-material">
                 <select class="material-control-login">
                     <option value="" disabled="" selected="">Tipo de usuario</option>
@@ -48,9 +49,10 @@
                     <option value="Admin">Administrador</option>
                 </select>
             </div>
-            <button class="btn-login" type="submit">Ingresar al sistema &nbsp; <i class="zmdi zmdi-arrow-right"></i></button>
+            -->
+            <button class="btn-login" type="submit" value="submit">Ingresar al sistema &nbsp; <i class="zmdi zmdi-arrow-right"></i></button>
         </form>
-    </div>   
+    </div>
   </div>
 </body>
 </html>
