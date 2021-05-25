@@ -367,6 +367,17 @@ app.use('/loan', async (req, res) => {
     res.render("loan", { title: "Prestamos", tabla: result.rows });
 });
 
+app.use('/loanDelete', async (req, res) => {
+
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM prestamo join usuario on usuario.matricula = prestamo.matricula join libros on libros.isbn = prestamo.isbn');
+    });
+    console.log(result);
+
+    res.render("loan", { title: "Prestamos", tabla: result.rows });
+});
+
 // Page loanpending
 app.use('/loanpending', (req, res) => {
     res.render("loanpending", { title: "Prestamos" });
