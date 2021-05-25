@@ -1,5 +1,6 @@
 <%- include("template/header") %>
         <div class="container-fluid">
+            <% for(let i = 0; i < tabla.length; i++) { %>
             <div class="media media-hover">
                 <div class="media-left media-middle">
                     <a href="#!" class="tooltips-general" data-toggle="tooltip" data-placement="right" title="Más información del libro">
@@ -7,66 +8,15 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">1 - Título</h4>
+                    <h4 class="media-heading"><%= tabla[i][1] %></h4>
                     <div class="pull-left">
-                        <strong>Autor<br>
-                        <strong>Año<br>
+                        <strong>Isbn: <%= tabla[i][0] %><br>
                     </div>
                     <p class="text-center pull-right">
                         <a href="#!" class="btn btn-info btn-xs" style="margin-right: 10px;"><i class="zmdi zmdi-info-outline"></i> &nbsp;&nbsp; Más información</a>
                     </p>
                 </div>
             </div>
-            <div class="media media-hover">
-                <div class="media-left media-middle">
-                    <a href="#!" class="tooltips-general" data-toggle="tooltip" data-placement="right" title="Más información del libro">
-                      <img class="media-object" src="assets/img/book.png" alt="Libro" width="48" height="48">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">2 - Título</h4>
-                    <div class="pull-left">
-                        <strong>Autor<br>
-                        <strong>Año<br>
-                    </div>
-                    <p class="text-center pull-right">
-                        <a href="#!" class="btn btn-info btn-xs" style="margin-right: 10px;"><i class="zmdi zmdi-info-outline"></i> &nbsp;&nbsp; Más información</a>
-                    </p>
-                </div>
-            </div>
-            <div class="media media-hover">
-                <div class="media-left media-middle">
-                    <a href="#!" class="tooltips-general" data-toggle="tooltip" data-placement="right" title="Más información del libro">
-                      <img class="media-object" src="assets/img/book.png" alt="Libro" width="48" height="48">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">3 - Título</h4>
-                    <div class="pull-left">
-                        <strong>Autor<br>
-                        <strong>Año<br>
-                    </div>
-                    <p class="text-center pull-right">
-                        <a href="#!" class="btn btn-info btn-xs" style="margin-right: 10px;"><i class="zmdi zmdi-info-outline"></i> &nbsp;&nbsp; Más información</a>
-                    </p>
-                </div>
-            </div>
-            <div class="media media-hover">
-                <div class="media-left media-middle">
-                    <a href="#!" class="tooltips-general" data-toggle="tooltip" data-placement="right" title="Más información del libro">
-                      <img class="media-object" src="assets/img/book.png" alt="Libro" width="48" height="48">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">4 - Título</h4>
-                    <div class="pull-left">
-                        <strong>Autor<br>
-                        <strong>Año<br>
-                    </div>
-                    <p class="text-center pull-right">
-                        <a href="#!" class="btn btn-info btn-xs" style="margin-right: 10px;"><i class="zmdi zmdi-info-outline"></i> &nbsp;&nbsp; Más información</a>
-                    </p>
-                </div>
-            </div>
+            <% } %>
         </div>
         <%- include("template/footer") %>

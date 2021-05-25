@@ -177,13 +177,15 @@ app.use('/book', (req, res) => {
 });
 
 // Page catalog
-app.use('/catalog', (req, res) => {
-    res.render("catalog", { title: "Catálogo" });
-});
+app.use('/catalog', async (req, res) => {
 
-// Page catalog
-app.use('/catalog', (req, res) => {
-    res.render("catalog", { title: "Catálogo" });
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM libros');
+    });
+    console.log(result);
+
+    res.render("catalog", { title: "Catálogo", tabla: result.rows });
 });
 
 // Page category
@@ -278,6 +280,40 @@ app.use('/listteacher', async (req, res) => {
 
     //console.log(result);
     res.render("listteacher", { title: "Docentes", tabla: result.rows });
+});
+
+// Register teacher
+app.post('/listteacher', urlencodedParser, async (req, res) => {
+    console.log(req.body);
+    let dir_id = Math.floor(Math.random() * 100000);
+    let fecha = new Date(req.body.fecha);
+    let fech = fecha.getDate() + "-" + fecha.getMonth() + "-" + fecha.getFullYear();
+
+    // direction
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO direcciones VALUES (:0, :1, :2, :3)",
+            [dir_id, req.body.calle, req.body.numero, req.body.cp], { autoCommit: true });
+    });
+
+    // user
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO usuario VALUES (:0, :1, :2, :3, :4, :5, :6)",
+            [req.body.matricula, req.body.contrasena, dir_id, req.body.nombre, req.body.apellido,
+                fech, req.body.telefono], { autoCommit: true });
+    });
+
+    // teacher
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO docente VALUES (:0, :1)",
+            [req.body.matricula, req.body.materia], { autoCommit: true });
+    });
+
+    let result;
+    let queryy = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM usuario join docente on usuario.matricula = docente.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id');
+    });
+
+    res.render("listteacher", { title: "Docentes", tabla: result });
 });
 
 // Page loan
