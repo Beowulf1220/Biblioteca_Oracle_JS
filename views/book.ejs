@@ -1,83 +1,67 @@
 <%- include("template/header") %>
-div class="container-fluid">
-<div class="row">
-    <div class="col-xs-12 lead">
-        <ol class="breadcrumb">
-          <li><a href="category">Nueva categoría</a></li>
-          <li class="active">Listado de categorías</li>
-        </ol>
-    </div>
-</div>
-</div>
-        <div class="container-flat-form">
-            <div class="title-flat-form title-flat-blue">Nuevo libro</div>
-            <form class="form-padding" method="POST" id="saveBook" name="saveBook">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <legend><i class="zmdi zmdi-account-box"></i> &nbsp; Información del libro</legend><br>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="group-material">
-                            <input type="text" class="tooltips-general material-control"
-                                placeholder="Escribe aquí el código correlativo del libro" pattern="[0-9]{1,20}"
-                                required="" maxlength="20" data-toggle="tooltip" data-placement="top"
-                                title="Escribe el Isbn del libro, solamente números"
-                                name="isbn">
-                            <span class="highlight"></span>
-                            <span class="bar"></span>
-                            <label>Isbn</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <div class="group-material">
-                            <input type="text" class="tooltips-general material-control"
-                                placeholder="Escribe aquí el título o nombre del libro" required="" maxlength="70"
-                                data-toggle="tooltip" data-placement="top" title="Escribe el título o nombre del libro"
-                                name="titulo">
-                            <span class="highlight"></span>
-                            <span class="bar"></span>
-                            <label>Título</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="group-material">
-                            <input type="text" class="tooltips-general material-control"
-                                placeholder="Escribe aquí el ID del libro" required="" maxlength="70"
-                                data-toggle="tooltip" data-placement="top"
-                                title="Escribe el ID del autor del libro"
-                                name="autor">
-                            <span class="highlight"></span>
-                            <span class="bar"></span>
-                            <label>Autor ID</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <legend><i class="zmdi zmdi-bookmark-outline"></i> &nbsp; Categoría</legend><br>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="group-material">
-                            <span>Categoría</span>
-                            <select class="tooltips-general material-control" data-toggle="tooltip" data-placement="top"
-                                title="Elige la categoría del libro" name="categoria">
-                                <option value="" disabled="" selected="">Selecciona una categoría</option>
-                                <option value="Cientifico">Científico</option>
-                                <option value="Humor">Humor</option>
-                                <option value="Deporte">Deporte</option>
-                                <% for(let i = 0; i < tabla.length; i++) { %>
-                                <option value="Novela">Deporte</option>
-                                <% } %>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <p class="text-center">
-                            <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i
-                                    class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button>
-                            <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Guardar</button>
-                        </p>
+    <div class="container-flat-form">
+        <div class="title-flat-form title-flat-blue">Nuevo libro</div>
+        <form class="form-padding" method="POST" id="saveBook" name="saveBook" action="/saveBook">
+            <div class="row">
+                <div class="col-xs-12">
+                    <legend><i class="zmdi zmdi-account-box"></i> &nbsp; Información del libro</legend><br>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control"
+                            placeholder="Escribe aquí el código correlativo del libro" pattern="[0-9]{1,20}" required=""
+                            maxlength="20" data-toggle="tooltip" data-placement="top"
+                            title="Escribe el Isbn del libro, solamente números" name="isbn">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Isbn</label>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control"
+                            placeholder="Escribe aquí el título o nombre del libro" required="" maxlength="70"
+                            data-toggle="tooltip" data-placement="top" title="Escribe el título o nombre del libro"
+                            name="titulo">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Título</label>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control"
+                            placeholder="Escribe aquí el ID del libro" required="" maxlength="70" data-toggle="tooltip"
+                            data-placement="top" title="Escribe el ID del autor del libro" name="autor">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Autor ID</label>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <legend><i class="zmdi zmdi-bookmark-outline"></i> &nbsp; Categoría</legend><br>
+                </div>
+                <div class="col-xs-12">
+                    <div class="group-material">
+                        <span>Categoría</span>
+                        <select class="tooltips-general material-control" data-toggle="tooltip" data-placement="top"
+                            title="Elige la categoría del libro" name="categoria">
+                            <option value="" disabled="" selected="">Selecciona una categoría</option>
+                            <% for(let i=0; i < tabla.length; i++) { %>
+                                <option value=<%= tabla[i][0] %>><%= tabla[i][1] %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <p class="text-center">
+                        <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i
+                                class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button>
+                        <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp;
+                            Guardar</button>
+                    </p>
+                </div>
+            </div>
+        </form>
     <%- include("template/footer") %>

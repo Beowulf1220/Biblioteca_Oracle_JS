@@ -178,13 +178,36 @@ app.use('/advancesettings', (req, res) => {
 });
 
 // Page book
-app.use('/book', (req, res) => {
-    res.render("book", { title: "Registrar Libro" });
+app.use('/book', async (req, res) => {
+
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM categoria');
+    });
+
+    res.render("book", { title: "Registrar Libro", tabla : result.rows });
 });
 
-// Page book
-app.use('/book', (req, res) => {
-    res.render("book", { title: "Registrar Libro" });
+// Page book save
+app.use('/saveBook', async (req, res) => {
+
+    console.log(req.body);
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO libros VALUES (:0, :1)",
+            [req.body.isbn, req.body.titulo], { autoCommit: true });
+    });
+
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO libros_por_categoria VALUES (:0, :1)",
+            [req.body.isbn, req.body.categoria], { autoCommit: true });
+    });
+
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM libros');
+    });
+
+    res.render("catalog", { title: "Libros", tabla: result.rows });
 });
 
 // Page catalog
