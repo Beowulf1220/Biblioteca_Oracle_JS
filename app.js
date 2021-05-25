@@ -237,7 +237,7 @@ app.use('/liststudent', async (req, res) => {
         result = await conn.execute('SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id');
     });
 
-    console.log(result);
+    //console.log(result);
     res.render("liststudent", { title: "Estudiantes", tabla: result.rows });
 });
 
@@ -296,9 +296,8 @@ app.use('/student', (req, res) => {
 });
 
 // Register student
-app.post('/add', urlencodedParser, async (req, res) => {
+app.post('/liststudent', urlencodedParser, async (req, res) => {
 
-    console.log(req.body);
     let dir_id = Math.floor(Math.random()*100000);
     let fecha = new Date(req.body.fecha);
     let fech = fecha.getDate()+"-"+fecha.getMonth()+"-"+fecha.getFullYear();
@@ -324,9 +323,12 @@ app.post('/add', urlencodedParser, async (req, res) => {
 
     //const c = await query(`INSERT INTO Alumno VALUES( ${req.body.matricula}, ${req.body.carrera} );`, res); // Register student
     
-    //const x = await query(`SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id WHERE alumno.matricula = ${req.body.matricula}`, res); // Query
+    let result;
+    let queryy = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id');
+    });
 
-    //res.render("liststudent", { title: "student" });
+    res.render("liststudent", { title: "Estudiantes", tabla: result });
 });
 
 // Page teachers
