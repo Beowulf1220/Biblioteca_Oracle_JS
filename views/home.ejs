@@ -2,48 +2,37 @@
         <section class="full-reset text-center" style="padding: 40px 0;">
             <article class="tile">
                 <div class="tile-icon full-reset"><i class="zmdi zmdi-face"></i></div>
-                <div class="tile-name all-tittles">administradores</div>
-                <div class="tile-num full-reset">7</div>
+                <div class="tile-name all-tittles">Administradores</div>
+                <div class="tile-num full-reset"><%= no_admin.length %></div>
             </article>
+            <a href="/liststudent">
             <article class="tile">
                 <div class="tile-icon full-reset"><i class="zmdi zmdi-accounts"></i></div>
-                <div class="tile-name all-tittles">estudiantes</div>
-                <div class="tile-num full-reset">70</div>
+                <div class="tile-name all-tittles">Estudiantes</div>
+                <div class="tile-num full-reset"><%= no_students.length %></div>
             </article>
+            </a>
+            <a href="/listteacher">
             <article class="tile">
                 <div class="tile-icon full-reset"><i class="zmdi zmdi-male-alt"></i></div>
-                <div class="tile-name all-tittles">docentes</div>
-                <div class="tile-num full-reset">11</div>
+                <div class="tile-name all-tittles">Docentes</div>
+                <div class="tile-num full-reset"><%= no_docentes.length %></div>
             </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-male-female"></i></div>
-                <div class="tile-name all-tittles" style="width: 90%;">personal administrativo</div>
-                <div class="tile-num full-reset">17</div>
-            </article>
+            </a>
             <article class="tile">
                 <div class="tile-icon full-reset"><i class="zmdi zmdi-book"></i></div>
-                <div class="tile-name all-tittles">libros</div>
-                <div class="tile-num full-reset">77</div>
+                <div class="tile-name all-tittles">Libros</div>
+                <div class="tile-num full-reset"><%= no_books.length %></div>
             </article>
             <article class="tile">
                 <div class="tile-icon full-reset"><i class="zmdi zmdi-bookmark-outline"></i></div>
-                <div class="tile-name all-tittles">categorías</div>
-                <div class="tile-num full-reset">11</div>
-            </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-timer"></i></div>
-                <div class="tile-name all-tittles">reservaciones</div>
-                <div class="tile-num full-reset">10</div>
-            </article>
-            <article class="tile">
-                <div class="tile-icon full-reset"><i class="zmdi zmdi-time-restore"></i></div>
-                <div class="tile-name all-tittles" style="width: 90%;">devoluciones pendientes</div>
-                <div class="tile-num full-reset">9</div>
+                <div class="tile-name all-tittles">Categorías</div>
+                <div class="tile-num full-reset"><%= no_categorias.length %></div>
             </article>
             <article class="tile">
                 <div class="tile-icon full-reset"><i class="zmdi zmdi-calendar"></i></div>
                 <div class="tile-name all-tittles">préstamos</div>
-                <div class="tile-num full-reset">7</div>
+                <div class="tile-num full-reset"><%= no_prestamos.length %></div>
             </article>
         </section>
         <%- include("template/footer") %>

@@ -4,7 +4,6 @@
                 <li role="presentation"><a href="admin">Administradores</a></li>
                 <li role="presentation"><a href="teacher">Docentes</a></li>
                 <li role="presentation" class="active"><a href="student">Estudiantes</a></li>
-                <li role="presentation"><a href="personal">Personal administrativo</a></li>
             </ul>
         </div>
         <div class="container-fluid"  style="margin: 50px 0;">
@@ -30,22 +29,22 @@
         <div class="container-fluid">
             <div class="container-flat-form">
                 <div class="title-flat-form title-flat-blue">Registrar un nuevo estudiante</div>
-                <form class="form-padding">
+                <form class="form-padding" action="/add" method="POST">
                     <div class="row">
                         <div class="col-xs-12">
                             <legend><i class="zmdi zmdi-account-box"></i> &nbsp; Datos básicos</legend><br>
                         </div>
                         <div class="col-xs-12">
                             <div class="group-material">
-                                <input type="text" class="material-control tooltips-general" placeholder="Escribe aquí el NIE del alumno" required="" maxlength="20" data-toggle="tooltip" data-placement="top" title="NIE de estudiante">
+                                <input type="number" name="matricula" class="material-control tooltips-general" placeholder="Escriba la matricula del alumno" required="" maxlength="20" data-toggle="tooltip" data-placement="top" title="Matricula de estudiante">
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
-                                <label>NIE</label>
+                                <label>Matricula</label>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="group-material">
-                                <input type="text" class="material-control tooltips-general" placeholder="Escribe aquí los nombres del alumno" required="" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" maxlength="50" data-toggle="tooltip" data-placement="top" title="Nombres del estudiante">
+                                <input type="text" name="nombre" class="material-control tooltips-general" placeholder="Escribe aquí los nombres del alumno" required="" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" maxlength="50" data-toggle="tooltip" data-placement="top" title="Nombres del estudiante">
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
                                 <label>Nombres</label>
@@ -53,86 +52,73 @@
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="group-material">
-                                <input type="text" class="material-control tooltips-general" placeholder="Escribe aquí los apellidos del alumno" required="" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" maxlength="50" data-toggle="tooltip" data-placement="top" title="Apellidos del estudiante">
+                                <input type="text" name="apellido" class="material-control tooltips-general" placeholder="Escribe aquí los apellidos del alumno" required="" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" maxlength="50" data-toggle="tooltip" data-placement="top" title="Apellidos del estudiante">
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
                                 <label>Apellidos</label>
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                           <div class="group-material">
-                                <span>Sección</span>
-                                <select class="material-control tooltips-general" data-toggle="tooltip" data-placement="top" title="Elige la sección a la que pertenece el alumno">
-                                    <option value="" disabled="" selected="">Selecciona una sección</option>
-                                    <option value="seccion">Sección</option>
-                                    <option value="seccion">Sección</option>
-                                    <option value="seccion">Sección</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <legend><i class="zmdi zmdi-mood"></i> &nbsp; Datos del encargado</legend><br>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="group-material">
-                                <input type="text" class="material-control tooltips-general check-representative" placeholder="Escribe aquí el número de DUI del encargado" pattern="[0-9-]{1,10}" required="" maxlength="10" data-toggle="tooltip" data-placement="top" title="Solamente números y guiones, 10 dígitos">
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label>Número de DUI del encargado</label>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="group-material">
-                                <input type="text" class="material-control tooltips-general" placeholder="Nombre del encargado" required="" pattern="[a-zA-ZéíóúáñÑ ]{1,50}" maxlength="50" data-toggle="tooltip" data-placement="top" title="Nombre del encargado del estudiante">
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label>Nombre completo del encargado</label>
-                            </div>
-                        </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="group-material">
-                                <input type="text" class="material-control tooltips-general" placeholder="Parentesco" required="" pattern="[a-zA-ZéíóúáñÑ ]{1,30}" maxlength="30" data-toggle="tooltip" data-placement="top" title="Parentesco">
-                                <span class="highlight"></span>
-                                <span class="bar"></span>
-                                <label>Parentesco</label>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-6">
-                            <div class="group-material">
-                                <input type="text" class="material-control tooltips-general" placeholder="Teléfono" pattern="[0-9]{8,8}" required="" maxlength="8" data-toggle="tooltip" data-placement="top" title="Solamente 8 números">
+                                <input type="text" name="telefono" class="material-control tooltips-general" placeholder="Teléfono" pattern="[0-9]{8,8}" required="" maxlength="8" data-toggle="tooltip" data-placement="top" title="Solamente 10 números">
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
                                 <label>Teléfono</label>
                             </div>
                         </div>
-                        <div class="col-xs-12">
-                            <legend><i class="zmdi zmdi-lock"></i> &nbsp; Datos de la cuenta</legend><br>
-                        </div>
-                        <div class="col-xs-12">
-                           <div class="group-material">
-                                <input type="text" class="material-control tooltips-general input-check-user" placeholder="Nombre de usuario" required="" maxlength="20" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]{1,20}" data-toggle="tooltip" data-placement="top" title="Escribe un nombre de usuario sin espacios, que servira para iniciar sesión">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="group-material">
+                                <input type="text" name="carrera" class="material-control tooltips-general" placeholder="Carrera" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="Escribe la Carrera">
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
-                                <label>Nombre de usuario</label>
-                           </div>
+                                <label>Carrera</label>
+                            </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
                             <div class="group-material">
-                                <input type="password" class="material-control tooltips-general" placeholder="Contraseña" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="Escribe una contraseña">
+                                <input type="password" name="contrasena" class="material-control tooltips-general" placeholder="Contraseña" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="Escribe una contraseña">
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
                                 <label>Contraseña</label>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-6">
-                           <div class="group-material">
-                                <input type="password" class="material-control tooltips-general" placeholder="Repite la contraseña" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="Repite la contraseña">
+                            <div class="group-material">
+                                <input type="date" name="fecha" class="material-control tooltips-general" placeholder="Contraseña" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="Escribe una contraseña">
                                 <span class="highlight"></span>
                                 <span class="bar"></span>
-                                <label>Repetir contraseña</label>
-                           </div>
+                                <label>Fecha de nacimiento</label>
+                            </div>
                         </div>
                        <div class="col-xs-12">
+                        <div class="col-xs-12">
+                            <legend><i class="zmdi zmdi-account-box"></i> &nbsp; Dirección</legend><br>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="group-material">
+                                 <input type="text" name="calle" class="material-control tooltips-general" placeholder="Escribe la calle" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="Calle">
+                                 <span class="highlight"></span>
+                                 <span class="bar"></span>
+                                 <label>Calle</label>
+                            </div>
+                         </div>
+                         <div class="col-xs-12 col-sm-6">
+                            <div class="group-material">
+                                 <input type="number" name="numero" class="material-control tooltips-general" placeholder="Número" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="Número">
+                                 <span class="highlight"></span>
+                                 <span class="bar"></span>
+                                 <label>Número</label>
+                            </div>
+                         </div>
+                         <div class="col-xs-12 col-sm-6">
+                            <div class="group-material">
+                                 <input type="number" name="cp" class="material-control tooltips-general" placeholder="Código postal" required="" maxlength="200" data-toggle="tooltip" data-placement="top" title="CP">
+                                 <span class="highlight"></span>
+                                 <span class="bar"></span>
+                                 <label>CP</label>
+                            </div>
+                         </div>
+                        <div class="col-xs-12">
                             <p class="text-center">
                                 <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button>
                                 <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Guardar</button>

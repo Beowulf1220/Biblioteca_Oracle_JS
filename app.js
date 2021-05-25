@@ -68,6 +68,8 @@ oracledb.getConnection(dbConfig,
     }
 );*/
 
+oracledb.autoCommit = true;
+
 // Query function
 async function query(req, res) {
     try {
@@ -173,8 +175,23 @@ app.use('/category', (req, res) => {
 });
 
 // Page home
-app.use('/home', (req, res) => {
-    res.render("home", { title: "Inicio" });
+app.use('/home', async (req, res) => {
+
+    const no_students = await query(`SELECT * FROM alumno`, res);
+    const no_books = await query(`SELECT * FROM libros`, res);
+    const no_prestamos = await query(`SELECT * FROM prestamo`, res);
+    const no_categorias = await query(`SELECT * FROM categoria`, res);
+    const no_docentes = await query(`SELECT * FROM docente`, res);
+    const no_admin = await query(`SELECT * FROM administrador`, res);
+
+    res.render("home", { title: "Inicio", 
+                        no_students: no_students.rows,
+                        no_books: no_books.rows,
+                        no_prestamos: no_prestamos.rows,
+                        no_categorias: no_categorias.rows,
+                        no_docentes: no_docentes.rows,
+                        no_admin: no_admin.rows,
+                     });
 });
 
 // Page index
@@ -273,14 +290,43 @@ app.use('/searchBook', (req, res) => {
     res.render("searchBook", { title: "Buscar libro" });
 });
 
-// Page teachers
-app.use('/section', (req, res) => {
-    res.render("section", { title: "Secciones" });
-});
-
-// Page teachers
+// Page students
 app.use('/student', (req, res) => {
     res.render("student", { title: "Estudiantes" });
+});
+
+// Register student
+app.post('/add', urlencodedParser, async (req, res) => {
+
+    console.log(req.body);
+    let dir_id = Math.floor(Math.random()*100000);
+    let fecha = new Date(req.body.fecha);
+    let fech = fecha.getDate()+"-"+fecha.getMonth()+"-"+fecha.getFullYear();
+
+    // direction
+    let query = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO direcciones VALUES (:0, :1, :2, :3)",
+        [dir_id, req.body.calle, req.body.numero, req.body.cp],{ autoCommit: true });
+    });
+
+    // user
+    let mer = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO usuario VALUES (:0, :1, :2, :3, :4, :5, :6)",
+        [req.body.matricula, req.body.contrasena, dir_id, req.body.nombre, req.body.apellido,
+            fech, req.body.telefono],{ autoCommit: true });
+    });
+
+    // Alumno
+    let merd = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO alumno VALUES (:0, :1)",
+        [req.body.matricula, req.body.carrera],{ autoCommit: true });
+    });
+
+    //const c = await query(`INSERT INTO Alumno VALUES( ${req.body.matricula}, ${req.body.carrera} );`, res); // Register student
+    
+    //const x = await query(`SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id WHERE alumno.matricula = ${req.body.matricula}`, res); // Query
+
+    //res.render("liststudent", { title: "student" });
 });
 
 // Page teachers
