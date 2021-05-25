@@ -401,14 +401,25 @@ app.use('/loanDelete', async (req, res) => {
     res.render("loan", { title: "Prestamos", tabla: result.rows });
 });
 
-// Page loanpending
-app.use('/loanpending', (req, res) => {
-    res.render("loanpending", { title: "Prestamos" });
+// Page loannew
+app.use('/loannewAdd', async (req, res) => {
+
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO prestamo VALUES (:0, :1, :2)",
+            [Math.floor(Math.random() * 100000), req.body.matricula, req.body.isbn], { autoCommit: true });
+    });
+
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM prestamo join usuario on usuario.matricula = prestamo.matricula join libros on libros.isbn = prestamo.isbn');
+    });
+
+    res.render("loan", { title: "Prestamos", tabla: result.rows });
 });
 
 // Page loanreservation
-app.use('/loanreservation', (req, res) => {
-    res.render("loanreservation", { title: "Reservaciones" });
+app.use('/loannew', (req, res) => {
+    res.render("loannew", { title: "Prestamo" });
 });
 
 // Page personal
