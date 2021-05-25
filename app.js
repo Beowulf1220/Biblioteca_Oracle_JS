@@ -18,6 +18,7 @@
 
 const express = require('express'); // import module
 const bodyParser = require('body-parser');
+const oracledb = require('oracledb');
 const app = express();
 app.use(express.static(__dirname + "/public")); // path
 
@@ -40,14 +41,15 @@ app.listen(port, () => {
     console.log("Servidor a su servicio", port);
 });
 
+const dbConfig = {
+    user: "hr",
+    password: "hr",
+    connectString: "localhost/xepdb1",
+};
+
 // data base conection
-var oracledb = require('oracledb');
-oracledb.getConnection(
-    {
-        user: "hr",
-        password: "hr",
-        connectString: "localhost/xepdb1"
-    },
+/*var oracledb = require('oracledb');
+oracledb.getConnection(dbConfig,
     function (err, connection) {
         if (err) {
             console.error(err.message);
@@ -64,7 +66,7 @@ oracledb.getConnection(
             }
         );
     }
-);
+);*/
 
 // Query function
 async function query(req, res) {
@@ -124,11 +126,11 @@ app.get('/query', function (req, res) {
 
 // This is for login
 app.post("/index", urlencodedParser, async (req, res) => {
-    const x = await query(`SELECT COUNT(*) FROM Usuario WHERE matricula = ${req.body.user} GROUP BY matricula`,res); // Query
+    const x = await query(`SELECT COUNT(*) FROM Usuario WHERE matricula = ${req.body.user} GROUP BY matricula`, res); // Query
     //console.log(x.rows==1);
-    if (x.rows==1) { // verify user
+    if (x.rows == 1) { // verify user
         res.render("home", { title: "Inicio" });
-    }else{
+    } else {
         // ...
     }
 });
@@ -211,8 +213,24 @@ app.use('/listsection', (req, res) => {
 });
 
 // Page liststudent
-app.use('/liststudent', (req, res) => {
-    res.render("liststudent", { title: "Estudiantes" });
+app.use('/liststudent', async (req, res) => {
+    
+    let result;
+    let query = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id');
+    });
+
+    console.log(result);
+    res.render("liststudent", { title: "Estudiantes", tabla: result.rows });
+});
+
+app.post('/astudent', urlencodedParser, async (req, res) => {
+
+    const x = await query(`SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id WHERE alumno.matricula = ${req.body.user}`, res); // Query
+    console.log(x.rows);
+    if (x.rows.length == 1) { // verify user
+        res.render("astudent", { title: "student", tabla: x.rows });
+    }
 });
 
 // Page listteacher
