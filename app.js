@@ -128,10 +128,27 @@ app.get('/query', function (req, res) {
 
 // This is for login
 app.post("/index", urlencodedParser, async (req, res) => {
-    const x = await query(`SELECT COUNT(*) FROM Usuario WHERE matricula = ${req.body.user} GROUP BY matricula`, res); // Query
-    //console.log(x.rows==1);
-    if (x.rows == 1) { // verify user
-        res.render("home", { title: "Inicio" });
+    const profile = await query(`SELECT * FROM usuario WHERE matricula = ${req.body.user} AND contrasena = ${req.body.contrasena}`, res); // Query
+    //console.log(x.rows.length == 1);
+    if (profile.rows.length == 1) { // verify user
+
+        const no_students = await query(`SELECT * FROM alumno`, res);
+        const no_books = await query(`SELECT * FROM libros`, res);
+        const no_prestamos = await query(`SELECT * FROM prestamo`, res);
+        const no_categorias = await query(`SELECT * FROM categoria`, res);
+        const no_docentes = await query(`SELECT * FROM docente`, res);
+        const no_admin = await query(`SELECT * FROM administrador`, res);
+
+        res.render("home", {
+            profile: profile.rows,
+            title: "Inicio",
+            no_students: no_students.rows,
+            no_books: no_books.rows,
+            no_prestamos: no_prestamos.rows,
+            no_categorias: no_categorias.rows,
+            no_docentes: no_docentes.rows,
+            no_admin: no_admin.rows,
+        });
     } else {
         // ...
     }
@@ -184,14 +201,15 @@ app.use('/home', async (req, res) => {
     const no_docentes = await query(`SELECT * FROM docente`, res);
     const no_admin = await query(`SELECT * FROM administrador`, res);
 
-    res.render("home", { title: "Inicio", 
-                        no_students: no_students.rows,
-                        no_books: no_books.rows,
-                        no_prestamos: no_prestamos.rows,
-                        no_categorias: no_categorias.rows,
-                        no_docentes: no_docentes.rows,
-                        no_admin: no_admin.rows,
-                     });
+    res.render("home", {
+        title: "Inicio",
+        no_students: no_students.rows,
+        no_books: no_books.rows,
+        no_prestamos: no_prestamos.rows,
+        no_categorias: no_categorias.rows,
+        no_docentes: no_docentes.rows,
+        no_admin: no_admin.rows,
+    });
 });
 
 // Page index
@@ -231,7 +249,7 @@ app.use('/listsection', (req, res) => {
 
 // Page liststudent
 app.use('/liststudent', async (req, res) => {
-    
+
     let result;
     let query = await oracledb.getConnection(dbConfig).then(async (conn) => {
         result = await conn.execute('SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id');
@@ -250,9 +268,16 @@ app.post('/astudent', urlencodedParser, async (req, res) => {
     }
 });
 
-// Page listteacher
-app.use('/listteacher', (req, res) => {
-    res.render("listteacher", { title: "Docentes" });
+// Page liststteacher
+app.use('/listteacher', async (req, res) => {
+
+    let result;
+    let query = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM usuario join docente on usuario.matricula = docente.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id');
+    });
+
+    //console.log(result);
+    res.render("listteacher", { title: "Docentes", tabla: result.rows });
 });
 
 // Page loan
@@ -298,31 +323,31 @@ app.use('/student', (req, res) => {
 // Register student
 app.post('/liststudent', urlencodedParser, async (req, res) => {
 
-    let dir_id = Math.floor(Math.random()*100000);
+    let dir_id = Math.floor(Math.random() * 100000);
     let fecha = new Date(req.body.fecha);
-    let fech = fecha.getDate()+"-"+fecha.getMonth()+"-"+fecha.getFullYear();
+    let fech = fecha.getDate() + "-" + fecha.getMonth() + "-" + fecha.getFullYear();
 
     // direction
     let query = await oracledb.getConnection(dbConfig).then(async (conn) => {
         const r = await conn.execute("INSERT INTO direcciones VALUES (:0, :1, :2, :3)",
-        [dir_id, req.body.calle, req.body.numero, req.body.cp],{ autoCommit: true });
+            [dir_id, req.body.calle, req.body.numero, req.body.cp], { autoCommit: true });
     });
 
     // user
     let mer = await oracledb.getConnection(dbConfig).then(async (conn) => {
         const r = await conn.execute("INSERT INTO usuario VALUES (:0, :1, :2, :3, :4, :5, :6)",
-        [req.body.matricula, req.body.contrasena, dir_id, req.body.nombre, req.body.apellido,
-            fech, req.body.telefono],{ autoCommit: true });
+            [req.body.matricula, req.body.contrasena, dir_id, req.body.nombre, req.body.apellido,
+                fech, req.body.telefono], { autoCommit: true });
     });
 
     // Alumno
     let merd = await oracledb.getConnection(dbConfig).then(async (conn) => {
         const r = await conn.execute("INSERT INTO alumno VALUES (:0, :1)",
-        [req.body.matricula, req.body.carrera],{ autoCommit: true });
+            [req.body.matricula, req.body.carrera], { autoCommit: true });
     });
 
     //const c = await query(`INSERT INTO Alumno VALUES( ${req.body.matricula}, ${req.body.carrera} );`, res); // Register student
-    
+
     let result;
     let queryy = await oracledb.getConnection(dbConfig).then(async (conn) => {
         result = await conn.execute('SELECT * FROM usuario join alumno on usuario.matricula = alumno.matricula join direcciones on direcciones.direccion_id = usuario.direccion_id');
