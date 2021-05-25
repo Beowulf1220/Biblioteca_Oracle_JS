@@ -356,8 +356,15 @@ app.post('/listteacher', urlencodedParser, async (req, res) => {
 });
 
 // Page loan
-app.use('/loan', (req, res) => {
-    res.render("loan", { title: "Prestamos" });
+app.use('/loan', async (req, res) => {
+
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM prestamo join usuario on usuario.matricula = prestamo.matricula join libros on libros.isbn = prestamo.isbn');
+    });
+    console.log(result);
+
+    res.render("loan", { title: "Prestamos", tabla: result.rows });
 });
 
 // Page loanpending
