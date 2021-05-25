@@ -1,0 +1,50 @@
+<%- include("template/header") %>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 lead">
+                <ol class="breadcrumb">
+                    <li>Nueva categoría</li>
+                    <li class="active"><a href="listcategory">Listado de categorías</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="container-flat-form">
+        <div class="title-flat-form title-flat-blue">Nuevo libro</div>
+        <form class="form-padding" method="POST" name="saveCategory" id="saveCategory" action="/saveCategory">
+            <div class="row">
+                <div class="col-xs-12">
+                    <legend><i class="zmdi zmdi-account-box"></i> &nbsp; Información del libro</legend><br>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control"
+                            placeholder="Escribe aquí el código de la categoría" pattern="[0-9]{1,20}" required=""
+                            maxlength="20" data-toggle="tooltip" data-placement="top"
+                            title="Escribe el código de la categoría" name="code">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Código</label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control"
+                            placeholder="Escribe aquí la categoría" required="" maxlength="70" data-toggle="tooltip"
+                            data-placement="top" title="Categoría" name="name">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Nombre de la categoría</label>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <p class="text-center">
+                        <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i
+                                class="zmdi zmdi-roller"></i> &nbsp;&nbsp; Limpiar</button>
+                        <button type="submit" class="btn btn-primary"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp;
+                            Guardar</button>
+                    </p>
+                </div>
+            </div>
+        </form>
+        <%- include("template/footer") %>

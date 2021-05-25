@@ -162,6 +162,17 @@ app.use('/admin', (req, res) => {
 });
 
 // Page advancesettings
+app.use('/adminAdd', async (req, res) => {
+
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        await conn.execute("INSERT INTO administrador VALUES (:0, :1)",
+            [req.body.matricula, req.body.rol], { autoCommit: true });
+    });
+
+    res.render("listadmin", { title: "Administradores" });
+});
+
+// Page advancesettings
 app.use('/advancesettings', (req, res) => {
     res.render("advancesettings", { title: "Configuraciones avanzadas" });
 });
@@ -183,7 +194,6 @@ app.use('/catalog', async (req, res) => {
     await oracledb.getConnection(dbConfig).then(async (conn) => {
         result = await conn.execute('SELECT * FROM libros');
     });
-    console.log(result);
 
     res.render("catalog", { title: "Catálogo", tabla: result.rows });
 });
@@ -191,6 +201,23 @@ app.use('/catalog', async (req, res) => {
 // Page category
 app.use('/category', (req, res) => {
     res.render("category", { title: "Categorías" });
+});
+
+// Register category
+app.post('/saveCategory', urlencodedParser, async (req, res) => {
+
+    // category
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        const r = await conn.execute("INSERT INTO categoria VALUES (:0, :1)",
+            [req.body.code, req.body.name], { autoCommit: true });
+    });
+
+    let result;
+    let queryy = await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM categoria');
+    });
+
+    res.render("listcategory", { title: "Categorías", tabla: result });
 });
 
 // Page home
@@ -224,14 +251,26 @@ app.use('/institution', (req, res) => {
     res.render("institution", { title: "Institución" });
 });
 
-// Page listpersonal
-app.use('/listadmin', (req, res) => {
-    res.render("listadmin", { title: "Administradores" });
+// Page listadmin
+app.use('/listadmin', async (req, res) => {
+
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM Administrador join usuario on usuario.matricula = administrador.matricula');
+    });
+
+    res.render("listadmin", { title: "Administradores", tabla: result.rows });
 });
 
-// Page listpersonal
-app.use('/listcategory', (req, res) => {
-    res.render("listcategory", { title: "Categorías" });
+// Page listcategory
+app.use('/listcategory', async (req, res) => {
+
+    let result;
+    await oracledb.getConnection(dbConfig).then(async (conn) => {
+        result = await conn.execute('SELECT * FROM categoria');
+    });
+
+    res.render("listcategory", { title: "Categorías", tabla: result.rows });
 });
 
 // Page listpersonal

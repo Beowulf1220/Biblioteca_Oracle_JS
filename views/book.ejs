@@ -1,5 +1,14 @@
 <%- include("template/header") %>
-    <div class="container-fluid">
+div class="container-fluid">
+<div class="row">
+    <div class="col-xs-12 lead">
+        <ol class="breadcrumb">
+          <li><a href="category">Nueva categoría</a></li>
+          <li class="active">Listado de categorías</li>
+        </ol>
+    </div>
+</div>
+</div>
         <div class="container-flat-form">
             <div class="title-flat-form title-flat-blue">Nuevo libro</div>
             <form class="form-padding" method="POST" id="saveBook" name="saveBook">
@@ -33,13 +42,13 @@
                     <div class="col-xs-12">
                         <div class="group-material">
                             <input type="text" class="tooltips-general material-control"
-                                placeholder="Escribe aquí el autor del libro" required="" maxlength="70"
+                                placeholder="Escribe aquí el ID del libro" required="" maxlength="70"
                                 data-toggle="tooltip" data-placement="top"
-                                title="Escribe el nombre del autor del libro"
+                                title="Escribe el ID del autor del libro"
                                 name="autor">
                             <span class="highlight"></span>
                             <span class="bar"></span>
-                            <label>Autor</label>
+                            <label>Autor ID</label>
                         </div>
                     </div>
                     <div class="col-xs-12">
@@ -54,7 +63,9 @@
                                 <option value="Cientifico">Científico</option>
                                 <option value="Humor">Humor</option>
                                 <option value="Deporte">Deporte</option>
+                                <% for(let i = 0; i < tabla.length; i++) { %>
                                 <option value="Novela">Deporte</option>
+                                <% } %>
                             </select>
                         </div>
                     </div>
